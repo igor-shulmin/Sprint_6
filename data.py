@@ -1,11 +1,8 @@
-import random
-
-
 class Url:
 
-    url_home_page = "https://qa-scooter.praktikum-services.ru/"
-    url_order_page = "https://qa-scooter.praktikum-services.ru/order"
-    url_dzen = "https://dzen.ru/?yredirect=true"
+    url_home_page = 'https://qa-scooter.praktikum-services.ru/'
+    url_order_page = 'https://qa-scooter.praktikum-services.ru/order'
+    url_dzen = 'https://dzen.ru/?yredirect=true'
 
 
 class Answers:
@@ -20,53 +17,3 @@ class Answers:
                 'Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.',
                 'Да, обязательно. Всем самокатов! И Москве, и Московской области.'
                 ]
-
-
-class Order1:
-
-    @staticmethod
-    def generate_order_data(name=None, surname=None):
-        result = ''
-        if name or surname:
-            result = random.choice(list('АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ'))
-            for i in range(5):
-                result += random.choice(list('абвгдеёжзийклмнопрстуфхцчшщъыьэюя'))
-
-        return result
-
-    name = generate_order_data(name='name')
-    surname = generate_order_data(surname='surname')
-    address = 'г. Москва, ' + random.choice(
-        ['ул. Тверская, 44, кв. 100', 'ул. Арбат, 100, кв. 44', 'ул. Варварка, 200, кв. 144'])
-    station = random.choice(['Лужники', 'Митино', 'ВДНХ', 'Лихоборы', 'Театральная'])
-    telephone = int('89' + ''.join([random.choice(list('1234567890')) for num in range(9)]))
-    date = random.choice(range(7))
-    rental_period = random.choice(
-        ['сутки', 'двое суток', 'трое суток', 'четверо суток', 'пятеро суток', 'шестеро суток', 'семеро суток'])
-    color = random.choice(['black', 'grey'])
-    comment = random.choice(['Код домофона: 123', 'Домофон не работает', 'Просьба доставить после 18:00'])
-
-
-class Order2:
-
-    @staticmethod
-    def generate_order_data(name=None, surname=None):
-        result = ''
-        if name or surname:
-            result = random.choice(list('АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ'))
-            for i in range(5):
-                result += random.choice(list('абвгдеёжзийклмнопрстуфхцчшщъыьэюя'))
-
-        return result
-
-    name = generate_order_data(name='name')
-    surname = generate_order_data(surname='surname')
-    address = 'г. Москва, ' + random.choice(
-        ['ул. Тверская, 44, кв. 100', 'ул. Арбат, 100, кв. 44', 'ул. Варварка, 200, кв. 144'])
-    station = random.choice(['Лужники', 'Митино', 'ВДНХ', 'Лихоборы', 'Театральная'])
-    telephone = int('89' + ''.join([random.choice(list('1234567890')) for num in range(9)]))
-    date = random.choice(range(7))
-    rental_period = random.choice(
-        ['сутки', 'двое суток', 'трое суток', 'четверо суток', 'пятеро суток', 'шестеро суток', 'семеро суток'])
-    color = random.choice(['black', 'grey'])
-    comment = random.choice(['Код домофона: 123', 'Домофон не работает', 'Просьба доставить после 18:00'])

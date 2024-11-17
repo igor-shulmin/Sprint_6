@@ -1,85 +1,97 @@
+import allure
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
 from locators import LocatorsOrderPage
+from page_objects.base_page import BasePageScooter
 
 
-class OrderPageScooter:
+class OrderPageScooter(BasePageScooter):
 
-    def __init__(self, driver, order):
-        self.driver = driver
-        self.name = order.name
-        self.surname = order.surname
-        self.address = order.address
-        self.station = order.station
-        self.telephone = order.telephone
-        self.date = order.date
-        self.rental_period = order.rental_period
-        self.color = order.color
-        self.comment = order.comment
-
-    def wait_for_load_order_header(self):
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(LocatorsOrderPage.order_header))
-
+    @allure.step('Вводим имя в поле оформления заказа')
     def set_name(self):
-        self.driver.find_element(*LocatorsOrderPage.name_field).send_keys(self.name)
+        element = self.driver_find_element(LocatorsOrderPage.name_field)
+        self.driver_send_keys_to_element(element, self.name)
 
+    @allure.step('Вводим фамилию в поле оформления заказа')
     def set_surname(self):
-        self.driver.find_element(*LocatorsOrderPage.surname_field).send_keys(self.surname)
+        element = self.driver_find_element(LocatorsOrderPage.surname_field)
+        self.driver_send_keys_to_element(element, self.surname)
 
+    @allure.step('Вводим адрес в поле оформления заказа')
     def set_address(self):
-        self.driver.find_element(*LocatorsOrderPage.address_field).send_keys(self.address)
+        element = self.driver_find_element(LocatorsOrderPage.address_field)
+        self.driver_send_keys_to_element(element, self.address)
 
+    @allure.step('Выбираем станцию метро из выпадающего списка')
     def choose_station(self):
-        self.driver.find_element(*LocatorsOrderPage.station_field_1).click()
-        self.driver.find_element(*LocatorsOrderPage.station_field_2).send_keys(self.station)
-        elements = self.driver.find_elements(*LocatorsOrderPage.station_field_3)
+        element = self.driver_find_element(LocatorsOrderPage.station_field_1)
+        self.driver_wait_for_clickable_element(LocatorsOrderPage.station_field_1)
+        self.driver_click_element(element)
+        element = self.driver_find_element(LocatorsOrderPage.station_field_2)
+        self.driver_send_keys_to_element(element, self.station)
+        elements = self.driver_find_elements(LocatorsOrderPage.station_field_3)
+
         for element in elements:
-            while element.text == self.station:
-                self.driver.execute_script("return arguments[0].scrollIntoView(true);", element)
-                element.click()
+            if element.text == self.station:
+                self.driver_scroll_to_element(element)
+                self.driver_click_element(element)
                 break
 
+    @allure.step('Вводим номер телефона в поле оформления заказа')
     def set_telephone(self):
-        self.driver.find_element(*LocatorsOrderPage.telephone_field).send_keys(self.telephone)
+        element = self.driver_find_element(LocatorsOrderPage.telephone_field)
+        self.driver_send_keys_to_element(element, self.telephone)
 
+    @allure.step('Нажимаем на кнопку "Далее"')
     def click_sign_in_button(self):
-        self.driver.find_element(*LocatorsOrderPage.order_button_next).click()
+        element = self.driver_find_element(LocatorsOrderPage.order_button_next)
+        self.driver_click_element(element)
 
+    @allure.step('Выбираем дату заказа')
     def set_date(self):
-        self.driver.find_element(*LocatorsOrderPage.date_field).click()
-        day_str = str(int(self.driver.find_element(*LocatorsOrderPage.current_day).text) + self.date)
-        self.driver.find_element(By.XPATH, f".//div[text()={day_str}]").click()
+        element = self.driver_find_element(LocatorsOrderPage.date_field)
+        self.driver_click_element(element)
+        element = self.driver_find_element(LocatorsOrderPage.current_day)
+        day_str = str(int(element.text) + self.date)
+        element = self.driver_find_element([By.XPATH, f".//div[text()={day_str}]"])
+        self.driver_click_element(element)
 
+    @allure.step('Выбираем период аренды самоката')
     def choose_rental_period(self):
-        self.driver.find_element(*LocatorsOrderPage.rental_period_field).click()
-        self.driver.find_element(By.XPATH, f".//div[text()='{self.rental_period}']").click()
+        element = self.driver_find_element(LocatorsOrderPage.rental_period_field)
+        self.driver_click_element(element)
+        element = self.driver_find_element([By.XPATH, f".//div[text()='{self.rental_period}']"])
+        self.driver_click_element(element)
 
+    @allure.step('Выбираем цвет самоката')
     def choose_color(self):
-        self.driver.find_element(*LocatorsOrderPage.color_field).click()
-        self.driver.find_element(By.ID, f"{self.color}").click()
+        element = self.driver_find_element(LocatorsOrderPage.color_field)
+        self.driver_click_element(element)
+        element = self.driver_find_element([By.ID, f"{self.color}"])
+        self.driver_click_element(element)
 
+    @allure.step('Оставляем комментарий')
     def set_comment(self):
-        self.driver.find_element(*LocatorsOrderPage.comment_field).send_keys(self.comment)
+        element = self.driver_find_element(LocatorsOrderPage.comment_field)
+        self.driver_send_keys_to_element(element, self.comment)
 
+    @allure.step('Нажимаем на кнопку "Заказать"')
     def click_sign_in_button2(self):
-        self.driver.find_elements(*LocatorsOrderPage.order_button_final)[1].click()
+        element = self.driver_find_elements(LocatorsOrderPage.order_button_final)[1]
+        self.driver_click_element(element)
 
-    def wait_for_load_pop_up_window(self):
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(LocatorsOrderPage.pop_up_window))
-
+    @allure.step('Делаем заказ')
     def make_order(self):
-        self.wait_for_load_order_header()
+        self.driver_wait_for_visibile_element(LocatorsOrderPage.order_header)
         self.set_name()
         self.set_surname()
         self.set_address()
         self.choose_station()
         self.set_telephone()
         self.click_sign_in_button()
-        self.wait_for_load_order_header()
+        self.driver_wait_for_visibile_element(LocatorsOrderPage.order_header)
         self.set_date()
         self.choose_rental_period()
         self.choose_color()
         self.set_comment()
         self.click_sign_in_button2()
-        self.wait_for_load_pop_up_window()
+        self.driver_wait_for_visibile_element(LocatorsOrderPage.pop_up_window)

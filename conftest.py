@@ -1,6 +1,6 @@
 import pytest
 from selenium import webdriver
-from data import Order1, Order2
+from helpers import Order
 
 
 @pytest.fixture(params=["chrome", "firefox"],scope="class")
@@ -20,8 +20,8 @@ def driver(request):
 @pytest.fixture(params=["data1", "data2"],scope="class")
 def order(request, driver):
     if request.param == "data1":
-        order = Order1()
+        order = Order()
     if request.param == "data2":
-        order = Order2()
+        order = Order()
 
     request.cls.order = order
