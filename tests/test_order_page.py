@@ -40,7 +40,7 @@ class TestOrderPage:
         order_page.driver_click_element(element)
         order_page.driver_wait_for_visibile_element(LocatorsOrderPage.logo_scooter)
 
-        assert self.driver.current_url == Url.url_home_page
+        assert order_page.driver_current_url() == Url.url_home_page
 
     @allure.title('Проверка перехода на главную страницу Дзена при клике на логотип "Яндекса"')
     def test_check_from_logo_yandex_to_dzen(self):
@@ -60,4 +60,4 @@ class TestOrderPage:
         order_page.driver_switch_to_window()
         order_page.driver_wait_for_visibile_element(LocatorsOrderPage.logo_dzen)
 
-        assert self.driver.current_url == Url.url_dzen
+        assert order_page.driver_current_url() == Url.url_dzen
