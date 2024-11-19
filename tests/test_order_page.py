@@ -13,51 +13,20 @@ class TestOrderPage:
     def test_check_order(self, locator):
         order_page = OrderPageScooter(self.driver, self.order)
 
-        order_page.go_to_site()
-        element = order_page.driver_find_element(locator)
-        order_page.driver_scroll_to_element(element)
-        order_page.driver_wait_for_clickable_element(locator)
-        order_page.driver_click_element(element)
-
-        order_page.driver_wait_for_visibile_element(LocatorsOrderPage.order_header)
-        order_page.make_order()
-
-        assert order_page.driver_find_element(LocatorsOrderPage.pop_up_window)
+        assert order_page.make_order(locator) == True
 
     @allure.title('Проверка перехода на главную страницу при клике на логотип сайта')
     def test_check_from_logo_samokat_to_home_page(self):
         order_page = OrderPageScooter(self.driver, self.order)
-
-        order_page.go_to_site()
-        element = order_page.driver_find_element(LocatorsOrderPage.order_button_up)
-        order_page.driver_click_element(element)
-        order_page.driver_wait_for_visibile_element(LocatorsOrderPage.order_header)
         order_page.make_order()
-
-        element = order_page.driver_find_element(LocatorsOrderPage.order_button_not)
-        order_page.driver_click_element(element)
-        element = order_page.driver_find_element(LocatorsOrderPage.logo_scooter)
-        order_page.driver_click_element(element)
-        order_page.driver_wait_for_visibile_element(LocatorsOrderPage.logo_scooter)
+        order_page.go_from_logo_samokat_to_home_page()
 
         assert order_page.driver_current_url() == Url.url_home_page
 
     @allure.title('Проверка перехода на главную страницу Дзена при клике на логотип "Яндекса"')
     def test_check_from_logo_yandex_to_dzen(self):
         order_page = OrderPageScooter(self.driver, self.order)
-
-        order_page.go_to_site()
-        element = order_page.driver_find_element(LocatorsOrderPage.order_button_up)
-        order_page.driver_click_element(element)
-        order_page.driver_wait_for_visibile_element(LocatorsOrderPage.order_header)
         order_page.make_order()
-
-        element = order_page.driver_find_element(LocatorsOrderPage.order_button_not)
-        order_page.driver_click_element(element)
-        element = order_page.driver_find_element(LocatorsOrderPage.logo_yandex)
-        order_page.driver_click_element(element)
-
-        order_page.driver_switch_to_window()
-        order_page.driver_wait_for_visibile_element(LocatorsOrderPage.logo_dzen)
+        order_page.go_from_logo_yandex_to_dzen()
 
         assert order_page.driver_current_url() == Url.url_dzen

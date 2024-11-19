@@ -1,21 +1,14 @@
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+
+from conftest import driver
 from data import Url
 
 
 class BasePageScooter:
 
-    def __init__(self, driver, order):
+    def __init__(self, driver):
         self.driver = driver
-        self.name = order.name
-        self.surname = order.surname
-        self.address = order.address
-        self.station = order.station
-        self.telephone = order.telephone
-        self.date = order.date
-        self.rental_period = order.rental_period
-        self.color = order.color
-        self.comment = order.comment
 
     def go_to_site(self):
         self.driver.get(Url.url_home_page)
